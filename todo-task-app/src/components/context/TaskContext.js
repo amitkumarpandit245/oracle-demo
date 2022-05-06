@@ -16,7 +16,7 @@ export const TaskProvider = ({ children }) => {
 
   // Fetch feedback
   const fetchTask = async () => {
-    const response = await fetch(`http://localhost:8080/api/v1/tasks`)
+    const response = await fetch(`http://localhost:8081/api/v1/tasks`)
     const data = await response.json()
 
     setTask(data)
@@ -24,7 +24,7 @@ export const TaskProvider = ({ children }) => {
   }
 
   const addTask = async (newTask) => {
-    const response = await fetch('http://localhost:8080/api/v1/task', {
+    const response = await fetch('http://localhost:8081/api/v1/task', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -37,7 +37,7 @@ export const TaskProvider = ({ children }) => {
     setTask([data, ...task])
   }
   const deleteTask = async (id) => {
-    await fetch(`http://localhost:8080/api/v1/task/${id}`, {
+    await fetch(`http://localhost:8081/api/v1/task/${id}`, {
       method: 'DELETE',
     })
     alert("Task Deleted Successfully")
@@ -45,7 +45,7 @@ export const TaskProvider = ({ children }) => {
   }
 
   const updateTask = async (id, updatedTask) => {
-    const response = await fetch(`http://localhost:8080/api/v1/task/${id}`, {
+    const response = await fetch(`http://localhost:8081/api/v1/task/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
