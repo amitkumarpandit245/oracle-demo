@@ -47,7 +47,7 @@ function TaskForm() {
         <h5 align="center">Task board</h5>
         <div className="form-group">
           <label htmlFor="usr">Task Name</label>
-          <input type="text" className="form-control" id="usr" placeholder='Meeting' value={name} onChange={handleName} required />
+          <input type="text" className="form-control" id="usr" value={name} onChange={handleName} required />
           <br></br>
         </div>
 

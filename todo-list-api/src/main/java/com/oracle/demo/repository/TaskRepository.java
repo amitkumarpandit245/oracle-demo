@@ -5,6 +5,12 @@ import org.springframework.stereotype.Repository;
 
 import com.oracle.demo.model.Task;
 
+/**
+ * Class for all the CRUD operation
+ * 
+ * @author Amit Kumar
+ * 
+ */
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Long> {
 

@@ -8,10 +8,18 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+/**
+ * Entity class to map to database table
+ * 
+ * @author Amit Kumar
+ * 
+ */
 @Entity
+@Setter
+@Getter
 public class Task {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

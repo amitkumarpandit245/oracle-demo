@@ -1,4 +1,5 @@
 docker build -t todo-list-app .
+docker build -t todo-list-api .
 docker run -d -p 8081:8081 todo-list-api
+docker run -d -p 3000:3000 todo-list-app
 npm run build
-docker run -d -p 3001:3001 todo-task-app

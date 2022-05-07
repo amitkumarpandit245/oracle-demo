@@ -2,6 +2,8 @@ package com.oracle.demo.controller;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,7 +20,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.oracle.demo.model.Task;
 import com.oracle.demo.service.TaskService;
 
-
+/**
+ * Controller Test Class to test all the End-point methods
+ * 
+ * @author Amit Kumar
+ *
+ */
 @ExtendWith(MockitoExtension.class)
 public class ToDoControllerTest {
 	@Mock
@@ -27,6 +34,11 @@ public class ToDoControllerTest {
 	ToDoController toDoController;
 	Task requestAddTask;
 
+	/**
+	 * Preparation of Task object for testing by reading from JSON file
+	 * 
+	 * @throws IOException If file is not found
+	 */
 	@BeforeEach
 	public void setUp() throws IOException {
 		requestAddTask = new ObjectMapper().readValue(
@@ -34,6 +46,9 @@ public class ToDoControllerTest {
 				Task.class);
 	}
 
+	/**
+	 * Test case to test test add task method
+	 */
 	@Test
 	void test_addTask_validScenario() {
 		Mockito.when(taskService.add(requestAddTask)).thenReturn(requestAddTask);
@@ -42,4 +57,50 @@ public class ToDoControllerTest {
 		Assertions.assertEquals("Task Added Successfully", response.getBody());
 	}
 
+	/**
+	 * Test case to test find task method
+	 */
+	@Test
+	void test_findTask_validScenario() {
+		Mockito.when(taskService.search(1l)).thenReturn(requestAddTask);
+		ResponseEntity<Task> response = toDoController.findTask(1l);
+		Assertions.assertNotNull(response.getBody());
+		Assertions.assertEquals("Morning Walk", response.getBody().getName());
+	}
+
+	/**
+	 * Test case to test update task method
+	 */
+	@Test
+	void test_updateTask_validScenario() {
+		requestAddTask.setName("Meeting");
+		Mockito.when(taskService.update(1l, requestAddTask)).thenReturn(requestAddTask);
+		ResponseEntity<String> response = toDoController.updateTask(1l, requestAddTask);
+		Assertions.assertNotNull(response.getBody());
+		Assertions.assertEquals("Task Updated Successfully", response.getBody());
+	}
+
+	/**
+	 * Test case to test delete method
+	 */
+	@Test
+	void test_deleteTask_validScenario() {
+		Mockito.doNothing().when(taskService).delete(1l);
+		ResponseEntity<String> response = toDoController.deleteTask(1l);
+		Assertions.assertNotNull(response.getBody());
+		Assertions.assertEquals("Task Deleted Successfully", response.getBody());
+	}
+
+	/**
+	 * Test Case to test get all tasks from database
+	 */
+	@Test
+	void test_getAllTasks_validScenario() {
+		List<Task> tasks = new ArrayList<>();
+		tasks.add(requestAddTask);
+		Mockito.when(taskService.getTasks()).thenReturn(tasks);
+		ResponseEntity<List<Task>> response = toDoController.getAllTasks();
+		Assertions.assertNotNull(response.getBody());
+		Assertions.assertEquals(response.getBody().size(), 1);
+	}
 }
