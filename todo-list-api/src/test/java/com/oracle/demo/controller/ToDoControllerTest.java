@@ -36,7 +36,7 @@ public class ToDoControllerTest {
 	ToDoController toDoController;
 	Task requestAddTask;
 	@Mock
-	Response response;
+	Response responseObj;
 
 	/**
 	 * Preparation of Task object for testing by reading from JSON file
@@ -55,6 +55,7 @@ public class ToDoControllerTest {
 	 */
 	@Test
 	void test_addTask_validScenario() {
+		responseObj.setMessage("Task Added Successfuly");
 		Mockito.when(taskService.add(requestAddTask)).thenReturn(requestAddTask);
 		ResponseEntity<Response> response = toDoController.addTask(requestAddTask);
 		Assertions.assertNotNull(response.getBody());

@@ -3,3 +3,8 @@ docker build -t todo-list-api .
 docker run -d -p 8081:8081 todo-list-api
 docker run -d -p 3000:3000 todo-list-app
 npm run build
+------------
+Java doc
+API Doc
+Swagger
+Global Exception Handling

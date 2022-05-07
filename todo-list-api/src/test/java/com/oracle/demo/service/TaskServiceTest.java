@@ -4,6 +4,7 @@ import static org.mockito.Mockito.times;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +20,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.io.ClassPathResource;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.oracle.demo.exception.TaskNotFoundException;
+import com.oracle.demo.model.Response;
 import com.oracle.demo.model.Task;
 import com.oracle.demo.repository.TaskRepository;
 
@@ -35,6 +38,8 @@ public class TaskServiceTest {
 	@InjectMocks
 	TaskService taskService;
 	Task requestAddTask;
+	@Mock
+	Response responseObj;
 
 	/**
 	 * Preparation of Task object by reading from JSON file
@@ -72,16 +77,36 @@ public class TaskServiceTest {
 	}
 
 	/**
+	 * Method to test search task functionality
+	 */
+	@Test
+	void test_searchTask_inValidScenario() throws TaskNotFoundException {
+		Assertions.assertThrows(TaskNotFoundException.class, () -> taskService.search(1l));
+	}
+
+	/**
 	 * Method to test update task functionality
 	 */
 	@Test
 	void test_updateTask_validScenario() {
 		requestAddTask.setDescription("Meeting");
+		responseObj.setTimeStamp(LocalDateTime.now());
+		responseObj.setMessage("Task Updated Successfully");
 		Mockito.when(taskRepository.getById(requestAddTask.getId())).thenReturn(requestAddTask);
 		Mockito.when(taskRepository.save(requestAddTask)).thenReturn(requestAddTask);
 		Task response = taskService.update(1l, requestAddTask);
 		Assertions.assertNotNull(response);
 		Assertions.assertEquals("Meeting", response.getDescription());
+	}
+
+	/**
+	 * Method to test update task functionality
+	 */
+	@Test
+	void test_updateTask_invalidScenario() {
+		requestAddTask.setDescription("Meeting");
+		responseObj.setTimeStamp(LocalDateTime.now());
+		Assertions.assertThrows(TaskNotFoundException.class, () -> taskService.update(1l, requestAddTask));
 	}
 
 	/**

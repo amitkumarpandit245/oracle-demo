@@ -65,10 +65,11 @@ public class TaskService {
 		log.info("Inside update Task Service Method -> ");
 		if (taskRepository.getById(id) == null) {
 			throw new TaskNotFoundException();
+		} else {
+			task.setId(id);
+			task.setTimeStamp(LocalDateTime.now());
+			return taskRepository.save(task);
 		}
-		task.setId(id);
-		task.setTimeStamp(LocalDateTime.now());
-		return taskRepository.save(task);
 	}
 
 	/**
