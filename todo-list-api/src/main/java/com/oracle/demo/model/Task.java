@@ -10,6 +10,7 @@ import javax.persistence.Id;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * Entity class to map to database table
@@ -20,6 +21,7 @@ import lombok.Setter;
 @Entity
 @Setter
 @Getter
+@ToString
 public class Task {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

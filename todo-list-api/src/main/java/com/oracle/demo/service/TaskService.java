@@ -2,11 +2,13 @@ package com.oracle.demo.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.oracle.demo.exception.TaskNotFoundException;
 import com.oracle.demo.model.Task;
 import com.oracle.demo.repository.TaskRepository;
 
@@ -44,7 +46,12 @@ public class TaskService {
 	 */
 	public Task search(Long taskId) {
 		log.info("Inside search Task Service Method -> ");
-		return taskRepository.findById(taskId).get();
+		Optional<Task> task = taskRepository.findById(taskId);
+		if (!task.isPresent()) {
+			throw new TaskNotFoundException();
+		} else {
+			return taskRepository.findById(taskId).get();
+		}
 	}
 
 	/**
@@ -56,6 +63,9 @@ public class TaskService {
 	 */
 	public Task update(Long id, Task task) {
 		log.info("Inside update Task Service Method -> ");
+		if (taskRepository.getById(id) == null) {
+			throw new TaskNotFoundException();
+		}
 		task.setId(id);
 		task.setTimeStamp(LocalDateTime.now());
 		return taskRepository.save(task);

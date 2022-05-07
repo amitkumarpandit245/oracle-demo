@@ -13,10 +13,11 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication
 @EnableSwagger2
 public class TodoListApiApplication {
-/**
- * Main method for spring boot application
- * @param args accepts array of string as arguments
- */
+	/**
+	 * Main method for spring boot application
+	 * 
+	 * @param args accepts array of string as arguments
+	 */
 	public static void main(String[] args) {
 		SpringApplication.run(TodoListApiApplication.class, args);
 	}

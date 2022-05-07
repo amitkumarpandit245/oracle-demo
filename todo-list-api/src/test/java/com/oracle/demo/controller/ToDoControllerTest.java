@@ -14,9 +14,11 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.oracle.demo.model.Response;
 import com.oracle.demo.model.Task;
 import com.oracle.demo.service.TaskService;
 
@@ -33,6 +35,8 @@ public class ToDoControllerTest {
 	@InjectMocks
 	ToDoController toDoController;
 	Task requestAddTask;
+	@Mock
+	Response response;
 
 	/**
 	 * Preparation of Task object for testing by reading from JSON file
@@ -52,9 +56,9 @@ public class ToDoControllerTest {
 	@Test
 	void test_addTask_validScenario() {
 		Mockito.when(taskService.add(requestAddTask)).thenReturn(requestAddTask);
-		ResponseEntity<String> response = toDoController.addTask(requestAddTask);
+		ResponseEntity<Response> response = toDoController.addTask(requestAddTask);
 		Assertions.assertNotNull(response.getBody());
-		Assertions.assertEquals("Task Added Successfully", response.getBody());
+		Assertions.assertEquals(HttpStatus.CREATED, response.getStatusCode());
 	}
 
 	/**
@@ -75,9 +79,9 @@ public class ToDoControllerTest {
 	void test_updateTask_validScenario() {
 		requestAddTask.setName("Meeting");
 		Mockito.when(taskService.update(1l, requestAddTask)).thenReturn(requestAddTask);
-		ResponseEntity<String> response = toDoController.updateTask(1l, requestAddTask);
+		ResponseEntity<Response> response = toDoController.updateTask(1l, requestAddTask);
 		Assertions.assertNotNull(response.getBody());
-		Assertions.assertEquals("Task Updated Successfully", response.getBody());
+		Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
 	}
 
 	/**
@@ -86,9 +90,9 @@ public class ToDoControllerTest {
 	@Test
 	void test_deleteTask_validScenario() {
 		Mockito.doNothing().when(taskService).delete(1l);
-		ResponseEntity<String> response = toDoController.deleteTask(1l);
+		ResponseEntity<Response> response = toDoController.deleteTask(1l);
 		Assertions.assertNotNull(response.getBody());
-		Assertions.assertEquals("Task Deleted Successfully", response.getBody());
+		Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
 	}
 
 	/**

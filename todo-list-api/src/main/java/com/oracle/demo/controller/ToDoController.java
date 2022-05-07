@@ -1,5 +1,6 @@
 package com.oracle.demo.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.oracle.demo.model.Response;
 import com.oracle.demo.model.Task;
 import com.oracle.demo.service.TaskService;
 
@@ -31,6 +33,8 @@ import lombok.extern.slf4j.Slf4j;
 public class ToDoController {
 	@Autowired
 	TaskService taskService;
+	@Autowired
+	Response response;
 
 	/**
 	 * API to search a task based on the Task ID
@@ -54,11 +58,13 @@ public class ToDoController {
 	 * @return Update Successful message
 	 */
 	@PutMapping("/api/v1/task/{id}")
-	public ResponseEntity<String> updateTask(@PathVariable("id") Long id, @RequestBody Task task) {
+	public ResponseEntity<Response> updateTask(@PathVariable("id") Long id, @RequestBody Task task) {
 		log.info("Inside update Task Endpoint->");
 		log.info("Request Body -> " + task + " Task Id ->" + id);
 		taskService.update(id, task);
-		return new ResponseEntity<String>("Task Updated Successfully", HttpStatus.OK);
+		response.setMessage("Task Updated Successfully");
+		response.setTimeStamp(LocalDateTime.now());
+		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
 
 	/**
@@ -68,11 +74,13 @@ public class ToDoController {
 	 * @return Update Successful message
 	 */
 	@PostMapping("/api/v1/task")
-	public ResponseEntity<String> addTask(@RequestBody Task task) {
+	public ResponseEntity<Response> addTask(@RequestBody Task task) {
 		log.info("Inside add Task Endpoint->");
 		log.info("Request Body -> " + task);
+		response.setMessage("Task Added Successfully");
+		response.setTimeStamp(LocalDateTime.now());
 		taskService.add(task);
-		return new ResponseEntity<String>("Task Added Successfully", HttpStatus.CREATED);
+		return new ResponseEntity<Response>(response, HttpStatus.CREATED);
 	}
 
 	/**
@@ -82,11 +90,13 @@ public class ToDoController {
 	 * @return Delete Successful message
 	 */
 	@DeleteMapping("/api/v1/task/{id}")
-	public ResponseEntity<String> deleteTask(@PathVariable("id") Long id) {
+	public ResponseEntity<Response> deleteTask(@PathVariable("id") Long id) {
 		log.info("Inside delete Task Endpoint");
 		log.info("Task Id -> " + id);
+		response.setMessage("Task Deleted Successfully");
+		response.setTimeStamp(LocalDateTime.now());
 		taskService.delete(id);
-		return new ResponseEntity<String>("Task Deleted Successfully", HttpStatus.OK);
+		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
 
 	/**

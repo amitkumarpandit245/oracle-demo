@@ -77,6 +77,7 @@ public class TaskServiceTest {
 	@Test
 	void test_updateTask_validScenario() {
 		requestAddTask.setDescription("Meeting");
+		Mockito.when(taskRepository.getById(requestAddTask.getId())).thenReturn(requestAddTask);
 		Mockito.when(taskRepository.save(requestAddTask)).thenReturn(requestAddTask);
 		Task response = taskService.update(1l, requestAddTask);
 		Assertions.assertNotNull(response);
