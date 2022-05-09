@@ -10,11 +10,22 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.oracle.demo.model.Response;
 
+/**
+ * Exception controller class to handle exceptions globally
+ * 
+ * @author Amit Kumar
+ *
+ */
 @ControllerAdvice
 public class TaskExceptionController {
 	@Autowired
 	Response response;
 
+	/**
+	 * 
+	 * @param exception Exception handler to handle TaskNotFound Exception
+	 * @return Response object with proper exception message
+	 */
 	@ExceptionHandler(value = TaskNotFoundException.class)
 	public ResponseEntity<Response> taskNotFoundExcepton(TaskNotFoundException exception) {
 		response.setMessage("Task with provided ID not Found in the database");
@@ -22,6 +33,11 @@ public class TaskExceptionController {
 		return new ResponseEntity<Response>(response, HttpStatus.BAD_REQUEST);
 	}
 
+	/**
+	 * 
+	 * @param exception Exception handler to handle all other Exceptions
+	 * @return Response object with proper exception message
+	 */
 	@ExceptionHandler(value = Exception.class)
 	public ResponseEntity<Response> excepton(Exception exception) {
 		response.setMessage("Exception occurred: " + exception.getMessage());

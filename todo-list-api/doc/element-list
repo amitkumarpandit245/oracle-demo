@@ -1,5 +1,6 @@
 com.oracle.demo
 com.oracle.demo.controller
+com.oracle.demo.exception
 com.oracle.demo.model
 com.oracle.demo.repository
 com.oracle.demo.service

@@ -7,6 +7,12 @@ import org.springframework.stereotype.Component;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Response Model class to hold HTTP response message
+ * 
+ * @author Amit Kumar
+ *
+ */
 @Getter
 @Setter
 @Component
